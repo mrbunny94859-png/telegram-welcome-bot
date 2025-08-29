@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cursor Live Output Demo</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; padding: 40px; background: #0b1020; color: #e8ecf1; }
+    .card { max-width: 720px; margin: 0 auto; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 28px; box-shadow: 0 10px 30px rgba(0,0,0,0.35); }
+    h1 { margin: 0 0 12px; font-size: 22px; }
+    .muted { opacity: 0.8; }
+    code { background: rgba(255,255,255,0.08); padding: 2px 6px; border-radius: 6px; }
+    .ok { color: #69f0ae; font-weight: 600; }
+  </style>
+  <script>
+    async function ping() {
+      const output = document.getElementById('output');
+      try {
+        const res = await fetch('/health');
+        const txt = await res.text();
+        output.textContent = `GET /health → ${res.status} ${res.statusText}\n${txt}`;
+      } catch (e) {
+        output.textContent = 'Failed to fetch /health. Is the server running?';
+      }
+    }
+    window.addEventListener('DOMContentLoaded', ping);
+  </script>
+</head>
+<body>
+  <div class="card">
+    <h1>Live Output Demo</h1>
+    <p class="muted">This page demonstrates how you can see live output when I run code. I will start a small server and you will see its response below.</p>
+    <pre id="output">Starting…</pre>
+    <p class="muted">If you run locally, open <code>http://localhost:8080</code> and <code>/health</code>.</p>
+    <p>Status: <span class="ok">Ready</span></p>
+  </div>
+</body>
+</html>
+
